@@ -1,22 +1,16 @@
 package com.kkuil.springboottemplate.filters;
 
+import jakarta.servlet.*;
 import org.springframework.core.Ordered;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
+
+import java.io.IOException;
 
 /**
  * @Author kkuil
  * @Date 2023/07/29 20:00
  * @Description 权限过滤器
  */
-public class AuthFilter implements Ordered, WebFilter {
-
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        return null;
-    }
+public class AuthFilter implements Ordered, Filter {
 
     /**
      * @return 优先级
@@ -25,5 +19,10 @@ public class AuthFilter implements Ordered, WebFilter {
     @Override
     public int getOrder() {
         return 0;
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
     }
 }
