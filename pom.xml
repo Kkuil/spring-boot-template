@@ -116,13 +116,6 @@
             <version>4.1.0</version>
         </dependency>
 
-        <!-- slf4j-api -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-
         <!-- spring-boot-starter-aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

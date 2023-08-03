@@ -17,6 +17,8 @@ spring:
             database: ${self.spring.redis.database}
             password: ${self.spring.redis.password}
             connect-timeout: ${self.spring.redis.timeout}
+    main:
+        lazy-initialization: ${self.spring.main.is-lazy}
 mybatis-plus:
     global-config:
         db-config:
