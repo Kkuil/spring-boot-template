@@ -52,4 +52,5 @@ cors:
     max-age: ${self.cors.max-age}
 jasypt:
     encryptor:
+        # 在实际开发中，推荐使用vm-options进行设置参数-Djasypt.encryptor.password=123456
         password: 123456
