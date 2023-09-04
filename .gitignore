@@ -33,5 +33,9 @@ build/
 .vscode/
 
 #### application-environments
-application-prod.properties
-application-test.properties
+**/*-prod.properties
+**/*-test.properties
+
+#### frontend
+**/*.production
+**/node_modules

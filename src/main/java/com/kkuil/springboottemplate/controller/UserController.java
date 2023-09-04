@@ -1,14 +1,21 @@
 package com.kkuil.springboottemplate.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kkuil.springboottemplate.exception.NecessaryFieldsIsEmptyException;
+import com.kkuil.springboottemplate.model.bo.MapDataInToken;
 import com.kkuil.springboottemplate.model.common.page.PageRes;
 import com.kkuil.springboottemplate.model.dto.user.AddUserDTO;
 import com.kkuil.springboottemplate.model.dto.user.UpdateUserDTO;
+import com.kkuil.springboottemplate.model.dto.user.UserLoginDTO;
+import com.kkuil.springboottemplate.model.dto.user.UserRegistryDTO;
 import com.kkuil.springboottemplate.model.entity.User;
 import com.kkuil.springboottemplate.service.IUserService;
+import com.kkuil.springboottemplate.utils.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -17,7 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.kkuil.springboottemplate.constant.UserConst.*;
 
 /**
  * @Author kkuil
@@ -142,6 +153,74 @@ public class UserController {
     @Parameter(name = "id", description = "查询用户数据传输对象")
     public com.kkuil.common.utils.ResultUtil<User> select(Long id) {
         return com.kkuil.common.utils.ResultUtil.success("查询成功", userService.getById(id));
+    }
+
+    /**
+     * 登录接口
+     *
+     * @param userLoginDTO 用户登录信息
+     * @return token
+     */
+    @PostMapping("/login")
+    @Operation(summary = "登录", description = "登录")
+    @Parameter(name = "userLoginDTO", description = "用户登录信息")
+    public com.kkuil.common.utils.ResultUtil<String> login(@RequestBody UserLoginDTO userLoginDTO) {
+        boolean isAllNotEmpty = ObjectUtil.isAllNotEmpty(userLoginDTO);
+        if (!isAllNotEmpty) {
+            throw new NecessaryFieldsIsEmptyException("必填字段为空异常");
+        }
+        String username = userLoginDTO.getUsername();
+        String password = userLoginDTO.getPassword();
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username", username);
+        User user = userService.getOne(userQueryWrapper);
+        if (user == null) {
+            return com.kkuil.common.utils.ResultUtil.error("用户不存在", null);
+        }
+        String pwdInTable = user.getPassword();
+        String pwdInForm = DigestUtil.md5Hex(password + USER_ENCRYPT_VALUE);
+        log.info("pwdInTable: {}", pwdInTable);
+        log.info("pwdInForm: {}", pwdInForm);
+        MapDataInToken mapDataInToken = MapDataInToken.builder().username(username).build();
+        if (!pwdInTable.equals(pwdInForm)) {
+            return com.kkuil.common.utils.ResultUtil.error("密码错误", null);
+        }
+        Map<String, Object> tokenMap = new HashMap<>(8);
+        tokenMap = BeanUtil.beanToMap(mapDataInToken, tokenMap, false, true);
+        String token = JwtUtils.create(tokenMap, USER_TOKEN_SECRET, USER_TOKEN_TTL);
+        return com.kkuil.common.utils.ResultUtil.success("登录成功", token);
+    }
+
+    /**
+     * 登录接口
+     *
+     * @param userRegistryDTO 用户登录信息
+     * @return token
+     */
+    @PostMapping("/registry")
+    @Operation(summary = "注册", description = "注册")
+    @Parameter(name = "userRegistryDTO", description = "用户注册信息")
+    public com.kkuil.common.utils.ResultUtil<Boolean> login(@RequestBody UserRegistryDTO userRegistryDTO) {
+        boolean isAllNotEmpty = ObjectUtil.isAllNotEmpty(userRegistryDTO);
+        if (!isAllNotEmpty) {
+            throw new NecessaryFieldsIsEmptyException("必填字段为空异常");
+        }
+        String username = userRegistryDTO.getUsername();
+        String password = userRegistryDTO.getPassword();
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username", username);
+        User user = userService.getOne(userQueryWrapper);
+        if (user != null) {
+            return com.kkuil.common.utils.ResultUtil.error("该用户名已被注册，请重新输入", false);
+        }
+        // md5(password + 盐值)
+        password = DigestUtil.md5Hex(password + USER_ENCRYPT_VALUE);
+        User newUser = User.builder()
+                .username(username)
+                .password(password)
+                .build();
+        userService.save(newUser);
+        return com.kkuil.common.utils.ResultUtil.success("注册成功", true);
     }
 
 }
