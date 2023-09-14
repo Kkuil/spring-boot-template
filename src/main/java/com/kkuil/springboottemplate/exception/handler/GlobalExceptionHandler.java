@@ -1,15 +1,15 @@
 package com.kkuil.springboottemplate.exception.handler;
 
-import com.kkuil.sqleasy.utils.ResultUtil;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import com.kkuil.common.utils.ResultUtil;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @Author kkuil
  * @Date 2023/08/03 23:00
  * @Description 异常处理器
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
