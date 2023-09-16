@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     /**
+     * 系统错误默认消息
+     */
+    public static final String SYSTEM_ERROR_MESSAGE = "系统出了点小差，请稍后再试哦~~";
+
+    /**
      * @param e Exception
      * @return ResponseEntity
      * @description 处理所有不可知的异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultUtil<Boolean> handleException(Exception e) {
-        return ResultUtil.error(e.getMessage(), false);
+    public ResultUtil<Boolean> handleException() {
+        return ResultUtil.error(SYSTEM_ERROR_MESSAGE, false);
     }
 }

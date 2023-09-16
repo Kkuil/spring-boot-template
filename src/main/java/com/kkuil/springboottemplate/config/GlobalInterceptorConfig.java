@@ -13,17 +13,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class GlobalInterceptorConfig implements WebMvcConfigurer {
+
+    /**
+     * 拦截器
+     *
+     * @param interceptorRegistry 拦截器注册器
+     */
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         interceptorRegistry.addInterceptor(new LogInterceptor());
     }
 
+    /**
+     * 跨域
+     *
+     * @param corsRegistry 跨域注册器
+     */
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                // 允许发送 Cookie
                 .allowCredentials(true)
-                // 放行哪些域名（必须用 patterns，否则 * 会和 allowCredentials 冲突）
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

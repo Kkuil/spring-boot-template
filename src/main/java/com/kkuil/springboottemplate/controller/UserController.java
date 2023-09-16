@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -164,11 +165,7 @@ public class UserController {
     @PostMapping("/login")
     @Operation(summary = "登录", description = "登录")
     @Parameter(name = "userLoginDTO", description = "用户登录信息")
-    public com.kkuil.common.utils.ResultUtil<String> login(@RequestBody UserLoginDTO userLoginDTO) {
-        boolean isAllNotEmpty = ObjectUtil.isAllNotEmpty(userLoginDTO);
-        if (!isAllNotEmpty) {
-            throw new NecessaryFieldsIsEmptyException("必填字段为空异常");
-        }
+    public com.kkuil.common.utils.ResultUtil<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
         String username = userLoginDTO.getUsername();
         String password = userLoginDTO.getPassword();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
@@ -200,11 +197,7 @@ public class UserController {
     @PostMapping("/registry")
     @Operation(summary = "注册", description = "注册")
     @Parameter(name = "userRegistryDTO", description = "用户注册信息")
-    public com.kkuil.common.utils.ResultUtil<Boolean> login(@RequestBody UserRegistryDTO userRegistryDTO) {
-        boolean isAllNotEmpty = ObjectUtil.isAllNotEmpty(userRegistryDTO);
-        if (!isAllNotEmpty) {
-            throw new NecessaryFieldsIsEmptyException("必填字段为空异常");
-        }
+    public com.kkuil.common.utils.ResultUtil<Boolean> login(@Valid @RequestBody UserRegistryDTO userRegistryDTO) {
         String username = userRegistryDTO.getUsername();
         String password = userRegistryDTO.getPassword();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();

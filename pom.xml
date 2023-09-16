@@ -135,6 +135,14 @@
             <version>2.4.0-b180830.0359</version>
         </dependency>
 
+        <!-- spring-boot-starter-validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>
