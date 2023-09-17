@@ -8,5 +8,5 @@ import com.kkuil.springboottemplate.model.entity.User;
  * @Date 2023/07/29 20:00
  * @Description UserServiceImpl
  */
-public interface IUserService extends IService<User> {
+public interface IUserService {
 }

@@ -1,8 +1,5 @@
 package com.kkuil.springboottemplate.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kkuil.springboottemplate.mapper.UserMapper;
-import com.kkuil.springboottemplate.model.entity.User;
 import com.kkuil.springboottemplate.service.IUserService;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +9,5 @@ import org.springframework.stereotype.Service;
  * @Description UserServiceImpl
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public class UserServiceImpl implements IUserService {
 }
