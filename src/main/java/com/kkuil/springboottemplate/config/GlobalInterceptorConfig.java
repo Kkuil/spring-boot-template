@@ -1,10 +1,16 @@
 package com.kkuil.springboottemplate.config;
 
+import com.kkuil.springboottemplate.interceptors.AuthInterceptor;
 import com.kkuil.springboottemplate.interceptors.LogInterceptor;
+import com.kkuil.springboottemplate.property.CorsProperties;
+import lombok.AllArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * @Author Kkuil
@@ -12,7 +18,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Date 2023/09/03
  */
 @Configuration
+@AllArgsConstructor
+@EnableConfigurationProperties(CorsProperties.class)
 public class GlobalInterceptorConfig implements WebMvcConfigurer {
+
+    /**
+     * 白名单
+     */
+    public static final List<String> WEB_URL_WHITELIST = List.of(
+            "/user/login",
+            "/user/register"
+    );
+
+    private CorsProperties corsProperties;
 
     /**
      * 拦截器
@@ -22,6 +40,8 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         interceptorRegistry.addInterceptor(new LogInterceptor());
+        interceptorRegistry.addInterceptor(new AuthInterceptor())
+                .excludePathPatterns(WEB_URL_WHITELIST);
     }
 
     /**
@@ -31,12 +51,10 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        corsRegistry.addMapping(corsProperties.getAddMapping())
+                .allowedOrigins(corsProperties.getAllowedOrigins())
+                .allowedMethods(corsProperties.getAllowedMethods())
                 .allowedHeaders("*")
                 .exposedHeaders("*");
-
     }
 }

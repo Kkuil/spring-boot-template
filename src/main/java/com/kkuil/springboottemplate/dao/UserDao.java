@@ -2,7 +2,7 @@ package com.kkuil.springboottemplate.dao;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kkuil.springboottemplate.mapper.UserMapper;
-import com.kkuil.springboottemplate.model.entity.User;
+import com.kkuil.springboottemplate.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 /**

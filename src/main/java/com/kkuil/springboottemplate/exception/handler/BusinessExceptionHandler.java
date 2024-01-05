@@ -1,9 +1,9 @@
 package com.kkuil.springboottemplate.exception.handler;
 
-import com.kkuil.springboottemplate.exception.NecessaryFieldsIsEmptyException;
+import com.kkuil.biliclone.exception.BusinessException;
+import com.kkuil.biliclone.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import com.kkuil.common.utils.ResultUtil;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -12,16 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Description 业务异常处理器
  */
 @RestControllerAdvice
-@Slf4j
+@Slf4j(topic = "business-exception")
 public class BusinessExceptionHandler {
-    /**
-     * @param e NecessaryFieldsIsEmptyException
-     * @return ResultUtil<Boolean>
-     * @description 必要字段为空异常
-     */
-    @ExceptionHandler(value = NecessaryFieldsIsEmptyException.class)
-    public ResultUtil<Boolean> necessaryFieldsIsEmptyException(NecessaryFieldsIsEmptyException e) {
+    @ExceptionHandler(value = BusinessException.class)
+    public ResultUtil<Boolean> businessException(BusinessException e) {
         log.info("Business message: {}", e.getMessage());
-        return ResultUtil.error(e.getMessage(), false);
+        return ResultUtil.error(e.getCode(), e.getMessage(), false);
     }
 }

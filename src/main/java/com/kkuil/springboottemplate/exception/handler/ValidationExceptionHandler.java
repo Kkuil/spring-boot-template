@@ -1,10 +1,10 @@
 package com.kkuil.springboottemplate.exception.handler;
 
+import com.kkuil.biliclone.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.kkuil.common.utils.ResultUtil;
 
 /**
  * @Author Kkuil
@@ -12,7 +12,7 @@ import com.kkuil.common.utils.ResultUtil;
  * @Description 入参校验异常捕获器
  */
 @RestControllerAdvice
-@Slf4j
+@Slf4j(topic = "validation.handler")
 public class ValidationExceptionHandler {
 
     /**
@@ -25,6 +25,7 @@ public class ValidationExceptionHandler {
     public ResultUtil<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         StringBuilder message = new StringBuilder();
         e.getBindingResult().getFieldErrors().forEach(error -> message.append(error.getField()));
+        log.info("message: {}", message);
         return ResultUtil.error(message);
     }
 }

@@ -17,8 +17,10 @@ spring:
             database: ${self.spring.redis.database}
             password: ${self.spring.redis.password}
             connect-timeout: ${self.spring.redis.timeout}
-    main:
-        lazy-initialization: ${self.spring.main.is-lazy}
+    servlet:
+        multipart:
+            max-file-size: ${self.file.max-file-size}   # 每个文件最大的size
+            max-request-size: ${self.file.max-request-size}  # 每次请求最大文件size
 mybatis-plus:
     global-config:
         db-config:
@@ -45,11 +47,9 @@ knife4j:
     setting:
         language: zh_cn
 cors:
-    mapping: ${self.cors.mapping}
+    add-mapping: ${self.cors.add-mapping}
     allowed-origins: ${self.cors.allowed-origins}
     allowed-methods: ${self.cors.allowed-methods}
-    allow-credentials: ${self.cors.allow-credentials}
-    max-age: ${self.cors.max-age}
 jasypt:
     encryptor:
         # 在实际开发中，推荐使用vm-options进行设置参数-Djasypt.encryptor.password=123456

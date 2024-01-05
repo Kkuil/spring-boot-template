@@ -1,6 +1,8 @@
 package com.kkuil.springboottemplate.exception.handler;
 
-import com.kkuil.common.utils.ResultUtil;
+import com.kkuil.biliclone.utils.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Description 异常处理器
  */
 @RestControllerAdvice
+@Slf4j(topic = "global")
 public class GlobalExceptionHandler {
 
     /**
@@ -23,7 +26,9 @@ public class GlobalExceptionHandler {
      * @description 处理所有不可知的异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultUtil<Boolean> handleException() {
-        return ResultUtil.error(SYSTEM_ERROR_MESSAGE, false);
+    public ResultUtil<Boolean> handleException(Exception e) {
+        String message = e.getMessage();
+        log.error("系统异常：{}", message);
+        return ResultUtil.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), SYSTEM_ERROR_MESSAGE, false);
     }
 }

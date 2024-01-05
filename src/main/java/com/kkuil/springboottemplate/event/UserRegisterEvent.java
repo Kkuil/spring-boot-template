@@ -1,6 +1,6 @@
 package com.kkuil.springboottemplate.event;
 
-import com.kkuil.springboottemplate.model.entity.User;
+import com.kkuil.springboottemplate.domain.entity.User;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

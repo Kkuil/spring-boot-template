@@ -1,11 +1,10 @@
 package com.kkuil.springboottemplate.exception.handler;
 
-import com.kkuil.springboottemplate.exception.UnAuthorizationException;
-import com.kkuil.common.utils.ResultUtil;
+import com.kkuil.biliclone.constant.GlobalConst;
+import com.kkuil.biliclone.exception.UnAuthorizationException;
+import com.kkuil.biliclone.utils.ResultUtil;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import static com.kkuil.springboottemplate.constant.GlobalConst.EMPTY_STR;
 
 /**
  * @Author kkuil
@@ -20,16 +19,11 @@ public class AuthExceptionHandler {
      */
     public static final String DEFAULT_UNAUTH_MESSAGE = "请先登录";
 
-    /**
-     * @param e Exception
-     * @return ResponseEntity
-     * @description 处理未登录异常
-     */
     @ExceptionHandler(value = UnAuthorizationException.class)
     public ResultUtil<Boolean> handleAuthException(UnAuthorizationException e) {
-        if (EMPTY_STR.equals(e.getMessage())) {
+        if (GlobalConst.EMPTY_STR.equals(e.getMessage())) {
             return ResultUtil.error(DEFAULT_UNAUTH_MESSAGE, false);
         }
-        return ResultUtil.error(e.getMessage(), false);
+        return ResultUtil.error(e.getCode(), e.getMessage(), false);
     }
 }

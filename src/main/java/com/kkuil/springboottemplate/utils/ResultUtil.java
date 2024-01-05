@@ -1,4 +1,4 @@
-package com.kkuil.common.utils;
+package com.kkuil.springboottemplate.utils;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ public class ResultUtil<DataType> {
     /**
      * 响应码
      */
-    private HttpStatus code;
+    private Integer code;
     /**
      * 响应消息
      */
@@ -23,33 +23,60 @@ public class ResultUtil<DataType> {
      */
     private DataType data;
 
-    public ResultUtil(HttpStatus code, String message, DataType data) {
+    public ResultUtil(Integer code, String message, DataType data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public static ResultUtil<Object> success() {
-        return new ResultUtil<>(HttpStatus.OK, "success", null);
+    /**
+     * Success
+     *
+     * @return
+     */
+    public static ResultUtil<String> success() {
+        return new ResultUtil<>(HttpStatus.OK.value(), "success", null);
+    }
+
+    public static ResultUtil<String> success(String message) {
+        return new ResultUtil<>(HttpStatus.OK.value(), message, null);
     }
 
     public static <DT> ResultUtil<DT> success(DT data) {
-        return new ResultUtil<>(HttpStatus.OK, "success", data);
+        return new ResultUtil<>(HttpStatus.OK.value(), "success", data);
     }
 
     public static <DT> ResultUtil<DT> success(String message, DT data) {
-        return new ResultUtil<>(HttpStatus.OK, message, data);
+        return new ResultUtil<>(HttpStatus.OK.value(), message, data);
     }
 
-    public static ResultUtil<Object> error() {
-        return new ResultUtil<>(HttpStatus.BAD_REQUEST, "error", null);
+
+    /**
+     * Error
+     *
+     * @return
+     */
+    public static ResultUtil<String> error() {
+        return new ResultUtil<>(HttpStatus.BAD_REQUEST.value(), "error", null);
+    }
+
+    public static ResultUtil<String> error(String message) {
+        return new ResultUtil<>(HttpStatus.OK.value(), message, null);
     }
 
     public static <DT> ResultUtil<DT> error(DT data) {
-        return new ResultUtil<>(HttpStatus.BAD_REQUEST, "error", data);
+        return new ResultUtil<>(HttpStatus.BAD_REQUEST.value(), "error", data);
+    }
+
+    public static <DT> ResultUtil<DT> error(Integer code, DT data) {
+        return new ResultUtil<>(code, "error", data);
     }
 
     public static <DT> ResultUtil<DT> error(String message, DT data) {
-        return new ResultUtil<>(HttpStatus.BAD_REQUEST, message, data);
+        return new ResultUtil<>(HttpStatus.BAD_REQUEST.value(), message, data);
+    }
+
+    public static <DT> ResultUtil<DT> error(Integer code, String message, DT data) {
+        return new ResultUtil<>(code, message, data);
     }
 }

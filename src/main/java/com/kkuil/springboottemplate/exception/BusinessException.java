@@ -8,13 +8,12 @@ import java.io.Serial;
 
 /**
  * @Author Kkuil
- * @Date 2023/9/4 10:43
- * @Description 未登录异常
+ * @Date 2023/9/26
+ * @Description 业务异常类
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UnAuthorizationException extends RuntimeException {
-
+public class BusinessException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -28,28 +27,28 @@ public class UnAuthorizationException extends RuntimeException {
      */
     protected String message;
 
-    public UnAuthorizationException() {
+    public BusinessException() {
         super();
     }
 
-    public UnAuthorizationException(String message) {
+    public BusinessException(String message) {
         super(message);
         this.message = message;
     }
 
-    public UnAuthorizationException(Integer code, String message) {
+    public BusinessException(Integer code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public UnAuthorizationException(Integer code, String message, Throwable cause) {
+    public BusinessException(Integer code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
         this.message = message;
     }
 
-    public UnAuthorizationException(ErrorEnum error) {
+    public BusinessException(ErrorEnum error) {
         super(error.getErrorMsg());
         this.code = error.getErrorCode();
         this.message = error.getErrorMsg();

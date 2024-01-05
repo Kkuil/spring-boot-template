@@ -1,7 +1,7 @@
 package com.kkuil.springboottemplate.event.listener;
 
 import com.kkuil.springboottemplate.event.UserRegisterEvent;
-import com.kkuil.springboottemplate.model.entity.User;
+import com.kkuil.springboottemplate.domain.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
