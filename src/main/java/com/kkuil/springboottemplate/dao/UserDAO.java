@@ -11,5 +11,5 @@ import org.springframework.stereotype.Service;
  * @Description 用户数据访问层
  */
 @Service
-public class UserDao extends ServiceImpl<UserMapper, User> {
+public class UserDAO extends ServiceImpl<UserMapper, User> {
 }

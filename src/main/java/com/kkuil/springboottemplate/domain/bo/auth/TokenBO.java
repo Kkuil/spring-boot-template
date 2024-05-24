@@ -14,10 +14,5 @@ public class TokenBO {
     /**
      * access_token
      */
-    private String accessToken;
-
-    /**
-     * refresh_token
-     */
-    private String refreshToken;
+    private String token;
 }

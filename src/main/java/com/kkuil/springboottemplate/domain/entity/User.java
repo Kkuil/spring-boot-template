@@ -44,14 +44,14 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
-    private Date createTime;
+    @TableField(value = "gmt_created_time")
+    private Date createdTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time")
-    private Date updateTime;
+    @TableField(value = "gmt_modified_time")
+    private Date modifiedTime;
 
     /**
      * 是否删除(0-未删, 1-已删)
